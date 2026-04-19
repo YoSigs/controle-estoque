@@ -7,6 +7,7 @@ Projeto simples em Python para gerenciamento de estoque via terminal.
 - Cadastro de produtos
 - Listagem de produtos
 - Atualização de quantidade
+- Deletar produtos
 
 ## Tecnologias
 
