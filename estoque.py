@@ -14,7 +14,15 @@ class ControleDeEstoque:
 
         
         nome = str(input("Digite o nome do produto: "))
-        preco = float(input("Digite o preço do produto R$: "))
+        while True:
+            try:
+                preco = str(input("Digite o preço do produto R$: ").replace(",", "."))
+                preco = float(preco)
+                break
+            except ValueError:
+                print("Digite somente numeros validos!!!")
+
+
         quantidade = int(input("Digite a quantidade: "))
         id = self.proximo_id       
         item = {"id": id,
