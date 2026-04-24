@@ -1,6 +1,4 @@
 from rich import print
-from rich.table import Table
-from rich.panel import Panel
 import os
 from estoque import ControleDeEstoque
 from menu import Menu
