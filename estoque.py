@@ -13,7 +13,7 @@ class ControleDeEstoque:
         print(painel_cadastro_de_produtos)
 
         
-        nome = str(input("Digite o nome do produto: "))
+        nome = str(input("Digite o nome do produto: ").title())
         while True:
             try:
                 preco = str(input("Digite o preço do produto R$: ").replace(",", "."))
