@@ -12,18 +12,32 @@ class ControleDeEstoque:
         painel_cadastro_de_produtos = Panel(f"[blue]Cadastro de Produtos[/]", width=35)
         print(painel_cadastro_de_produtos)
 
-        
-        nome = str(input("Digite o nome do produto: ").title())
+        while True:
+            nome = input("Digite o nome do produto: ").strip().title()
+            if nome == "":
+                print("Digite o nome do produto!")
+                continue
+            break
         while True:
             try:
-                preco = str(input("Digite o preço do produto R$: ").replace(",", "."))
+                preco = input("Digite o preço do produto R$: ").replace(",", ".")
                 preco = float(preco)
+                if preco <= 0:
+                    print("Digite somente numeros positivos!")
+                    continue
                 break
             except ValueError:
                 print("Digite somente numeros validos!!!")
 
-
-        quantidade = int(input("Digite a quantidade: "))
+        while True:
+            try:
+                quantidade = int(input("Digite a quantidade: "))
+                if quantidade <= 0:
+                    print("[red]ERRO! numero digitado é menor ou igual a 0[/]")
+                    continue
+                break
+            except ValueError:
+                print("[red]Digite somente numeros![/]")
         id = self.proximo_id       
         item = {"id": id,
                 "nome": nome,
