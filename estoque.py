@@ -79,11 +79,25 @@ class ControleDeEstoque:
     
     def deletar_produto(self):
         self.listar_produtos()
-        id = int(input('ID do produto que deseja remover: '))
-
-        for item in self.estoque:
-            if item["id"] == id:
-                self.estoque.remove(item)
-                print("[green]Produto removido com sucesso![/]")
-                return
-        print("[red]ERRO: Produto não encontrado[/]")
+        while True:
+            try:
+                id = input('ID do produto que deseja remover: ').strip()
+                
+                if id == "":
+                    print("[red]ERRO: ID do produto não digitado[/]")
+                    continue
+                id = int(id)
+                for item in self.estoque:
+                    if item["id"] == id:
+                        confirmacao = input(f"Confirme que deseja excluir o produto {item['nome']}, (S) para confirmar: ").upper()
+                        if confirmacao == 'S':
+                            self.estoque.remove(item)
+                            print("[green]Produto removido com sucesso![/]")
+                            return
+                        else:
+                            print(f"Remoção do produto {item['nome']} cancelada")
+                            return
+                print("[red]ERRO: Produto não encontrado[/]")
+            except ValueError:
+                print("[red]ERRO: Digite somente numeros")
+            
