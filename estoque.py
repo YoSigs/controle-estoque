@@ -48,22 +48,26 @@ class ControleDeEstoque:
         print("Produto cadastrado com sucesso")
 
     def listar_produtos(self):
-        lista = Table(title = "Produtos")
+        if not self.estoque:
+            print('[red]ATENÇÃO: a lista está vazia[/]')
 
-        lista.add_column("ID")
-        lista.add_column("Nome")
-        lista.add_column("Preço")
-        lista.add_column("Quantidade")
+        else:
+            lista = Table(title = "Produtos")
 
-        for item in self.estoque:
-            lista.add_row(
-                str(item["id"]),
-                item["nome"],
-                f"R$ {item['preco']:.2f}",
-                str(item["quantidade"])
-            )
-            
-        print(lista)
+            lista.add_column("ID")
+            lista.add_column("Nome")
+            lista.add_column("Preço")
+            lista.add_column("Quantidade")
+
+            for item in self.estoque:
+                lista.add_row(
+                    str(item["id"]),
+                    item["nome"],
+                    f"R$ {item['preco']:.2f}",
+                    str(item["quantidade"])
+                )
+                
+            print(lista)
 
     def atualizar_quant_produtos(self):
         self.listar_produtos()
