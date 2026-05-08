@@ -72,6 +72,9 @@ class ControleDeEstoque:
             print(lista)
 
     def atualizar_quant_produtos(self):
+        if not self.estoque:
+            print('[red]ATENÇÃO: a lista está vazia[/]')
+            return
         self.listar_produtos()
         produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
         if produto == 0:
