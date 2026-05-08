@@ -13,10 +13,12 @@ class ControleDeEstoque:
         print(painel_cadastro_de_produtos)
 
         while True:
-            nome = input("Digite o nome do produto: ").strip().title()
+            nome = input("Digite o nome do produto (0 para voltar): ").strip().title()
             if nome == "":
                 print("Digite o nome do produto!")
                 continue
+            elif nome == '0':
+                return
             break
         while True:
             try:
@@ -71,7 +73,9 @@ class ControleDeEstoque:
 
     def atualizar_quant_produtos(self):
         self.listar_produtos()
-        produto = int(input("Qual o ID do produto que você deseja atualizar? "))
+        produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
+        if produto == 0:
+            return
         for i in self.estoque:
             if i["id"] == produto:
                 print(f"A quantidade atual do produto {i['nome']} é {i['quantidade']}")
@@ -82,26 +86,31 @@ class ControleDeEstoque:
         print("Produto não encontrado")
     
     def deletar_produto(self):
-        self.listar_produtos()
-        while True:
-            try:
-                id = input('ID do produto que deseja remover: ').strip()
+        if not self.estoque:
+            print('[red]ATENÇÃO: a lista está vazia[/]')
+        else:
+            self.listar_produtos()
+            while True:
+                try:
+                    id = input('ID do produto que deseja remover: (0 para voltar) ').strip()
+                    if id == '0':
+                        return
+                    
+                    if id == "":
+                        print("[red]ERRO: ID do produto não digitado[/]")
+                        continue
+                    id = int(id)
+                    for item in self.estoque:
+                        if item["id"] == id:
+                            confirmacao = input(f"Confirme que deseja excluir o produto {item['nome']}, (S) para confirmar: ").upper()
+                            if confirmacao == 'S':
+                                self.estoque.remove(item)
+                                print("[green]Produto removido com sucesso![/]")
+                                return
+                            else:
+                                print(f"Remoção do produto {item['nome']} cancelada")
+                                return
+                    print("[red]ERRO: Produto não encontrado[/]")
+                except ValueError:
+                    print("[red]ERRO: Digite somente numeros")
                 
-                if id == "":
-                    print("[red]ERRO: ID do produto não digitado[/]")
-                    continue
-                id = int(id)
-                for item in self.estoque:
-                    if item["id"] == id:
-                        confirmacao = input(f"Confirme que deseja excluir o produto {item['nome']}, (S) para confirmar: ").upper()
-                        if confirmacao == 'S':
-                            self.estoque.remove(item)
-                            print("[green]Produto removido com sucesso![/]")
-                            return
-                        else:
-                            print(f"Remoção do produto {item['nome']} cancelada")
-                            return
-                print("[red]ERRO: Produto não encontrado[/]")
-            except ValueError:
-                print("[red]ERRO: Digite somente numeros")
-            
