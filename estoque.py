@@ -49,11 +49,26 @@ class ControleDeEstoque:
         self.estoque.append(item)
         print("Produto cadastrado com sucesso")
 
+    def mostrar_produtos(self):
+        if not self.estoque:
+            print('[red]ATENÇÃO: a lista está vazia[/]')
+        else:
+            for item in self.estoque:
+                print(f"ID: {item['id']} - Nome: {item['nome']} - Preço: R$ {item['preco']:.2f} - Quantidade: {item['quantidade']}")
+
     def listar_produtos(self):
         if not self.estoque:
             print('[red]ATENÇÃO: a lista está vazia[/]')
 
         else:
+            filtro = input("Digite o nome do produto para filtrar (deixe vazio para mostrar todos): ").strip().title()  
+            if not filtro:
+                produtos_filtrados = self.estoque
+            else:
+                produtos_filtrados = [item for item in self.estoque if filtro in item["nome"]]
+                if not produtos_filtrados:
+                    print(f'[red]Nenhum produto encontrado com o nome "{filtro}"[/]')
+                    return
             lista = Table(title = "Produtos")
 
             lista.add_column("ID")
@@ -61,7 +76,7 @@ class ControleDeEstoque:
             lista.add_column("Preço")
             lista.add_column("Quantidade")
 
-            for item in self.estoque:
+            for item in produtos_filtrados:
                 lista.add_row(
                     str(item["id"]),
                     item["nome"],
@@ -75,7 +90,7 @@ class ControleDeEstoque:
         if not self.estoque:
             print('[red]ATENÇÃO: a lista está vazia[/]')
             return
-        self.listar_produtos()
+        self.mostrar_produtos()
         produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
         if produto == 0:
             return
@@ -92,7 +107,7 @@ class ControleDeEstoque:
         if not self.estoque:
             print('[red]ATENÇÃO: a lista está vazia[/]')
         else:
-            self.listar_produtos()
+            self.mostrar_produtos()
             while True:
                 try:
                     id = input('ID do produto que deseja remover: (0 para voltar) ').strip()
