@@ -1,6 +1,7 @@
 from rich import print
 from rich.table import Table
 from rich.panel import Panel
+import validacoes
 
 class ControleDeEstoque:
     def __init__(self):
@@ -50,15 +51,15 @@ class ControleDeEstoque:
         print("Produto cadastrado com sucesso")
 
     def mostrar_produtos(self):
-        if not self.estoque:
-            print('[red]ATENÇÃO: a lista está vazia[/]')
+        if validacoes.verifica_estoque(self.estoque) == False:
+            return
         else:
             for item in self.estoque:
                 print(f"ID: {item['id']} - Nome: {item['nome']} - Preço: R$ {item['preco']:.2f} - Quantidade: {item['quantidade']}")
 
     def listar_produtos(self):
-        if not self.estoque:
-            print('[red]ATENÇÃO: a lista está vazia[/]')
+        if validacoes.verifica_estoque(self.estoque) == False:
+            return
 
         else:
             filtro = input("Digite o nome do produto para filtrar (deixe vazio para mostrar todos): ").strip().title()  
@@ -87,8 +88,7 @@ class ControleDeEstoque:
             print(lista)
 
     def atualizar_quant_produtos(self):
-        if not self.estoque:
-            print('[red]ATENÇÃO: a lista está vazia[/]')
+        if validacoes.verifica_estoque(self.estoque) == False:
             return
         self.mostrar_produtos()
         produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
@@ -104,8 +104,8 @@ class ControleDeEstoque:
         print("Produto não encontrado")
     
     def deletar_produto(self):
-        if not self.estoque:
-            print('[red]ATENÇÃO: a lista está vazia[/]')
+        if validacoes.verifica_estoque(self.estoque) == False:
+            return
         else:
             self.mostrar_produtos()
             while True:
