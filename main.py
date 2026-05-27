@@ -8,10 +8,10 @@ estoque = ControleDeEstoque()
 
 while True:
     menu.mostra_menu()
-    opcao_menu = str(input("Digite uma opção: "))
+    opcao_menu = str(input("Digite uma opção (0 Para sair): "))
     match opcao_menu:
         case '0':
-            print("Fim do programa")
+            print("[red]Fim do programa[/]")
             break
         case '1':
             estoque.cadastrar_produtos()
@@ -22,6 +22,6 @@ while True:
         case '4':
             estoque.deletar_produto()
         case _:
-            print("OPÇÃO INVALIDA")
+            print("[red]OPÇÃO INVALIDA[/]")
     input("\nPressione ENTER para continuar...")
     os.system('cls')

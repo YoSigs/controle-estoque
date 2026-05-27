@@ -6,5 +6,8 @@ def verifica_estoque(estoque):
         return False
     return True
 
+def verifica_numero_positivo(numero):
+    if numero < 0:
+        return False
+    return True
         
-    

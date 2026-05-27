@@ -25,18 +25,18 @@ class ControleDeEstoque:
             try:
                 preco = input("Digite o preço do produto R$: ").replace(",", ".")
                 preco = float(preco)
-                if preco <= 0:
-                    print("Digite somente numeros positivos!")
+                if not validacoes.verifica_numero_positivo(preco):
+                    print("[red]Digite somente numeros positivos![/]")
                     continue
                 break
             except ValueError:
-                print("Digite somente numeros validos!!!")
+                print("Digite somente numeros!!!")
 
         while True:
             try:
                 quantidade = int(input("Digite a quantidade: "))
-                if quantidade <= 0:
-                    print("[red]ERRO! numero digitado é menor ou igual a 0[/]")
+                if not validacoes.verifica_numero_positivo(preco):
+                    print("[red]Digite somente numeros positivos![/]")
                     continue
                 break
             except ValueError:
@@ -48,7 +48,7 @@ class ControleDeEstoque:
                 "quantidade": quantidade}
         self.proximo_id += 1
         self.estoque.append(item)
-        print("Produto cadastrado com sucesso")
+        print("[green]Produto cadastrado com sucesso[/]")
 
     def mostrar_produtos(self):
         if validacoes.verifica_estoque(self.estoque) == False:
@@ -88,20 +88,35 @@ class ControleDeEstoque:
             print(lista)
 
     def atualizar_quant_produtos(self):
+        #verifica se o estoque ja existe
         if validacoes.verifica_estoque(self.estoque) == False:
             return
+        
+        #mostra todos os possiveis produtos
         self.mostrar_produtos()
-        produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
+
+        while True:
+            #recebe o id do produto a ser atualizado
+            produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
+
+            #verifica se o numero é positivo
+            if not validacoes.verifica_numero_positivo(produto):
+                print("[red]Digite somente numeros positivos![/]")  
+                continue
+            break
+
+        #verifica se o numero é igual a 0
         if produto == 0:
             return
+        
+        
         for i in self.estoque:
             if i["id"] == produto:
                 print(f"A quantidade atual do produto {i['nome']} é {i['quantidade']}")
                 i["quantidade"] = int(input("Nova quantidade: "))
                 print(f"Atualizado: {i['quantidade']} unidades de {i['nome']}")
-                
                 return
-        print("Produto não encontrado")
+        print("[red]ERRO: produto não encontrado!")
     
     def deletar_produto(self):
         if validacoes.verifica_estoque(self.estoque) == False:
@@ -126,9 +141,9 @@ class ControleDeEstoque:
                                 print("[green]Produto removido com sucesso![/]")
                                 return
                             else:
-                                print(f"Remoção do produto {item['nome']} cancelada")
+                                print(f"Remoção do produto {item['nome']} [red]cancelada[/]")
                                 return
                     print("[red]ERRO: Produto não encontrado[/]")
                 except ValueError:
-                    print("[red]ERRO: Digite somente numeros")
+                    print("[red]ERRO: Digite somente numeros[/]")
                 
