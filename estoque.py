@@ -53,8 +53,21 @@ class ControleDeEstoque:
         if validacoes.verifica_estoque(self.estoque) == False:
             return
         else:
+            lista = Table(title = "Produtos")
+
+            lista.add_column("ID")
+            lista.add_column("Nome")
+            lista.add_column("Preço")
+            lista.add_column("Quantidade")
+
             for item in self.estoque:
-                print(f"ID: {item['id']} - Nome: {item['nome']} - Preço: R$ {item['preco']:.2f} - Quantidade: {item['quantidade']}")
+                lista.add_row(
+                    str(item["id"]),
+                    item["nome"],
+                    f"R$ {item['preco']:.2f}",
+                    str(item["quantidade"])
+                )
+            print(lista)
 
     def listar_produtos(self):
         if validacoes.verifica_estoque(self.estoque) == False:
