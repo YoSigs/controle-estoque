@@ -11,3 +11,15 @@ def verifica_numero_positivo(numero):
         return False
     return True
         
+def ler_inteiros(msg):
+    while True:
+        valor = input(msg)
+        valor = valor.strip()
+        if valor == "":
+            print("[red]ERRO: Campo vazio!")
+            continue
+        elif valor.isnumeric():
+            valor = int(valor)
+            return valor
+        else:
+            print("[red]ERRO: Digite somente números!")

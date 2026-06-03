@@ -23,7 +23,7 @@ class ControleDeEstoque:
             break
         while True:
             try:
-                preco = input("Digite o preço do produto R$: ").replace(",", ".")
+                preco = input("Preço do produto: ").replace(",", ".")
                 preco = float(preco)
                 if not validacoes.verifica_numero_positivo(preco):
                     print("[red]Digite somente numeros positivos![/]")
@@ -33,14 +33,13 @@ class ControleDeEstoque:
                 print("Digite somente numeros!!!")
 
         while True:
-            try:
-                quantidade = int(input("Digite a quantidade: "))
-                if not validacoes.verifica_numero_positivo(preco):
-                    print("[red]Digite somente numeros positivos![/]")
-                    continue
-                break
-            except ValueError:
-                print("[red]Digite somente numeros![/]")
+            quantidade = validacoes.ler_inteiros("Digite a quantidade: ")
+            if not validacoes.verifica_numero_positivo(quantidade):
+                print("[red]Digite somente numeros positivos![/]")
+                continue
+            break
+
+                
         id = self.proximo_id       
         item = {"id": id,
                 "nome": nome,
@@ -68,7 +67,7 @@ class ControleDeEstoque:
             else:
                 produtos_filtrados = [item for item in self.estoque if filtro in item["nome"]]
                 if not produtos_filtrados:
-                    print(f'[red]Nenhum produto encontrado com o nome "{filtro}"[/]')
+                    print(f'[red]ERRO: Nenhum produto encontrado com o nome "{filtro}"[/]')
                     return
             lista = Table(title = "Produtos")
 
@@ -125,7 +124,7 @@ class ControleDeEstoque:
             self.mostrar_produtos()
             while True:
                 try:
-                    id = input('ID do produto que deseja remover: (0 para voltar) ').strip()
+                    id = validacoes.ler_inteiros("ID do produto que deseja remover: (0 para voltar) ")
                     if id == '0':
                         return
                     
