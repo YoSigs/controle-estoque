@@ -9,7 +9,6 @@ class ControleDeEstoque:
         self.proximo_id = 1
 
     def cadastrar_produtos(self):
-        #Painel de cadastro de produtos
         painel_cadastro_de_produtos = Panel(f"[blue]Cadastro de Produtos[/]", width=35)
         print(painel_cadastro_de_produtos)
 
