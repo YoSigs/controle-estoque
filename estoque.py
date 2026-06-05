@@ -2,6 +2,7 @@ from rich import print
 from rich.table import Table
 from rich.panel import Panel
 import validacoes
+from banco.produtos import inserir_no_banco, lista_de_produtos
 
 class ControleDeEstoque:
     def __init__(self):
@@ -37,7 +38,7 @@ class ControleDeEstoque:
                 print("[red]Digite somente numeros positivos![/]")
                 continue
             break
-
+        inserir_no_banco(nome=nome, preco=preco, quantidade=quantidade)
                 
         id = self.proximo_id       
         item = {"id": id,
@@ -69,34 +70,22 @@ class ControleDeEstoque:
             print(lista)
 
     def listar_produtos(self):
-        if validacoes.verifica_estoque(self.estoque) == False:
-            return
+        lista = Table(title = "Produtos")
 
-        else:
-            filtro = input("Digite o nome do produto para filtrar (deixe vazio para mostrar todos): ").strip().title()  
-            if not filtro:
-                produtos_filtrados = self.estoque
-            else:
-                produtos_filtrados = [item for item in self.estoque if filtro in item["nome"]]
-                if not produtos_filtrados:
-                    print(f'[red]ERRO: Nenhum produto encontrado com o nome "{filtro}"[/]')
-                    return
-            lista = Table(title = "Produtos")
+        lista.add_column("ID")
+        lista.add_column("Nome")
+        lista.add_column("Preço")
+        lista.add_column("Quantidade")
 
-            lista.add_column("ID")
-            lista.add_column("Nome")
-            lista.add_column("Preço")
-            lista.add_column("Quantidade")
-
-            for item in produtos_filtrados:
-                lista.add_row(
-                    str(item["id"]),
-                    item["nome"],
-                    f"R$ {item['preco']:.2f}",
-                    str(item["quantidade"])
-                )
-                
-            print(lista)
+        for produto in lista_de_produtos():
+            lista.add_row(
+                str(produto[0]),
+                produto[1],
+                f"R$ {produto[2]:.2f}",
+                str(produto[3])
+            )
+            
+        print(lista)
 
     def atualizar_quant_produtos(self):
         #verifica se o estoque ja existe
