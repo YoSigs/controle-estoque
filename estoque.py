@@ -2,7 +2,7 @@ from rich import print
 from rich.table import Table
 from rich.panel import Panel
 import validacoes
-from banco.produtos import inserir_no_banco, lista_de_produtos
+from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos
 
 class ControleDeEstoque:
     def __init__(self):
@@ -77,13 +77,28 @@ class ControleDeEstoque:
         lista.add_column("Preço")
         lista.add_column("Quantidade")
 
-        for produto in lista_de_produtos():
-            lista.add_row(
+        filtro = input("Digite o ID do produto para filtrar apenas ele, ou aperte enter para ver todos: ")
+        if filtro.strip() == "":
+            for produto in lista_de_produtos():
+                lista.add_row(
                 str(produto[0]),
                 produto[1],
                 f"R$ {produto[2]:.2f}",
                 str(produto[3])
             )
+        else:
+           produto = filtrar_produtos(filtro)
+           if not produto:
+               print("[red]ERRO: Produto não encontrado![/]")
+               return
+           
+           
+           lista.add_row(str(produto[0]),
+                         produto[1],
+                         f"R$ {produto[2]:.2f}",
+                         str(produto[3]))
+            
+                
             
         print(lista)
 

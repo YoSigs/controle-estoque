@@ -25,3 +25,19 @@ def lista_de_produtos():
     conexao.close()
 
     return produtos
+
+def filtrar_produtos(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT * FROM PRODUTOS
+        WHERE id = ?
+    """,
+    (id,))
+
+    produto = cursor.fetchone()
+
+    conexao.close()
+
+    return produto
