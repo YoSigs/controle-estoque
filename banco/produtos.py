@@ -41,3 +41,15 @@ def filtrar_produtos(id):
     conexao.close()
 
     return produto
+
+def apagar_produto(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    DELETE FROM produtos WHERE id = ?    
+    """,
+    (id,))
+
+    conexao.commit()
+    conexao.close()

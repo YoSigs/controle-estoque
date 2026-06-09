@@ -2,7 +2,7 @@ from rich import print
 from rich.table import Table
 from rich.panel import Panel
 import validacoes
-from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos
+from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos, apagar_produto
 
 class ControleDeEstoque:
     def __init__(self):
@@ -134,31 +134,27 @@ class ControleDeEstoque:
         print("[red]ERRO: produto não encontrado!")
     
     def deletar_produto(self):
-        if validacoes.verifica_estoque(self.estoque) == False:
+        produtos = lista_de_produtos()
+        if not produtos:
+            print("[red]ERRO: não há produtos cadastrados[/]")
             return
-        else:
-            self.mostrar_produtos()
-            while True:
-                try:
-                    id = validacoes.ler_inteiros("ID do produto que deseja remover: (0 para voltar) ")
-                    if id == '0':
-                        return
-                    
-                    if id == "":
-                        print("[red]ERRO: ID do produto não digitado[/]")
-                        continue
-                    id = int(id)
-                    for item in self.estoque:
-                        if item["id"] == id:
-                            confirmacao = input(f"Confirme que deseja excluir o produto {item['nome']}, (S) para confirmar: ").upper()
-                            if confirmacao == 'S':
-                                self.estoque.remove(item)
-                                print("[green]Produto removido com sucesso![/]")
-                                return
-                            else:
-                                print(f"Remoção do produto {item['nome']} [red]cancelada[/]")
-                                return
-                    print("[red]ERRO: Produto não encontrado[/]")
-                except ValueError:
-                    print("[red]ERRO: Digite somente numeros[/]")
+        
+        #self.mostrar_produtos()
+        id_produto = validacoes.ler_inteiros("ID do produto que deseja remover: (0 para voltar) ")
+        if id_produto == 0:
+            return
+        produto = filtrar_produtos(id_produto)
+        if produto is None:
+            print(F"[red]ERRO: Produto não encontrado![/]")
+            return
+        
+        confirmacao = input(f"Confirme que deseja excluir o produto {produto[1]}, (S) para confirmar: ").upper()
+        if confirmacao == 'S':
+            apagar_produto(id_produto)
+            print(f"[green]Produto {produto[1]} removido com sucesso![/]")
+            return
+        
+        print(f"Remoção do produto {produto[1]} [red]cancelada[/]")
+        return
+                
                 
