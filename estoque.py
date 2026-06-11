@@ -2,7 +2,7 @@ from rich import print
 from rich.table import Table
 from rich.panel import Panel
 import validacoes
-from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos, apagar_produto
+from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos, apagar_produto, atualizar_quantidade
 
 class ControleDeEstoque:
     def __init__(self):
@@ -103,35 +103,33 @@ class ControleDeEstoque:
         print(lista)
 
     def atualizar_quant_produtos(self):
-        #verifica se o estoque ja existe
-        if validacoes.verifica_estoque(self.estoque) == False:
-            return
-        
-        #mostra todos os possiveis produtos
-        self.mostrar_produtos()
 
         while True:
-            #recebe o id do produto a ser atualizado
-            produto = int(input("Qual o ID do produto que você deseja atualizar? (0 para voltar)"))
-
-            #verifica se o numero é positivo
-            if not validacoes.verifica_numero_positivo(produto):
+            id_produto = validacoes.ler_inteiros("Qual o ID do produto que você deseja atualizar? (0 para voltar)")
+            if id_produto == 0:
+                return
+        
+            if not validacoes.verifica_numero_positivo(id_produto):
                 print("[red]Digite somente numeros positivos![/]")  
                 continue
             break
 
-        #verifica se o numero é igual a 0
-        if produto == 0:
+        produto = filtrar_produtos(id_produto)
+        if not produto:
+            print("[red]ERRO: Produto não encontrado![/]")
             return
         
-        
-        for i in self.estoque:
-            if i["id"] == produto:
-                print(f"A quantidade atual do produto {i['nome']} é {i['quantidade']}")
-                i["quantidade"] = int(input("Nova quantidade: "))
-                print(f"Atualizado: {i['quantidade']} unidades de {i['nome']}")
-                return
-        print("[red]ERRO: produto não encontrado!")
+        while True:
+            quantidade_nova = validacoes.ler_inteiros(f"A quantidade atual do produto {produto[1]} é {produto[3]} \nNova quantidade: ")
+
+            if not validacoes.verifica_numero_positivo(quantidade_nova):
+                print("[red]ERRO: digite somente numeros positivos")
+                continue
+            
+            atualizar_quantidade(id_produto, quantidade_nova)
+            print("[green]Quantidade atualizada com sucesso!!![/]")
+        break
+
     
     def deletar_produto(self):
         produtos = lista_de_produtos()
@@ -139,7 +137,6 @@ class ControleDeEstoque:
             print("[red]ERRO: não há produtos cadastrados[/]")
             return
         
-        #self.mostrar_produtos()
         id_produto = validacoes.ler_inteiros("ID do produto que deseja remover: (0 para voltar) ")
         if id_produto == 0:
             return

@@ -53,3 +53,18 @@ def apagar_produto(id):
 
     conexao.commit()
     conexao.close()
+
+def atualizar_quantidade(id, quantidade_nova):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    UPDATE produtos
+    SET quantidade = ?
+    WHERE id = ?
+                   """,
+    (quantidade_nova, id))
+
+    conexao.commit()
+    conexao.close()
+    
