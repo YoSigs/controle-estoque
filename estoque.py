@@ -5,9 +5,6 @@ import validacoes
 from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos, apagar_produto, atualizar_quantidade
 
 class ControleDeEstoque:
-    def __init__(self):
-        self.estoque = list()
-        self.proximo_id = 1
 
     def cadastrar_produtos(self):
         painel_cadastro_de_produtos = Panel(f"[blue]Cadastro de Produtos[/]", width=35)
@@ -39,35 +36,26 @@ class ControleDeEstoque:
                 continue
             break
         inserir_no_banco(nome=nome, preco=preco, quantidade=quantidade)
-                
-        id = self.proximo_id       
-        item = {"id": id,
-                "nome": nome,
-                "preco": preco,
-                "quantidade": quantidade}
-        self.proximo_id += 1
-        self.estoque.append(item)
+
         print("[green]Produto cadastrado com sucesso[/]")
 
-    def mostrar_produtos(self):
-        if validacoes.verifica_estoque(self.estoque) == False:
-            return
-        else:
-            lista = Table(title = "Produtos")
+    def mostrar_produtos():
+        
+        lista = Table(title = "Produtos")
 
-            lista.add_column("ID")
-            lista.add_column("Nome")
-            lista.add_column("Preço")
-            lista.add_column("Quantidade")
+        lista.add_column("ID")
+        lista.add_column("Nome")
+        lista.add_column("Preço")
+        lista.add_column("Quantidade")
 
-            for item in self.estoque:
-                lista.add_row(
-                    str(item["id"]),
-                    item["nome"],
-                    f"R$ {item['preco']:.2f}",
-                    str(item["quantidade"])
-                )
-            print(lista)
+        for produto in lista_de_produtos():
+            lista.add_row(
+            str(produto[0]),
+            produto[1],
+            f"R$ {produto[2]:.2f}",
+            str(produto[3])
+        )
+        print(lista)
 
     def listar_produtos(self):
         lista = Table(title = "Produtos")
@@ -128,7 +116,7 @@ class ControleDeEstoque:
             
             atualizar_quantidade(id_produto, quantidade_nova)
             print("[green]Quantidade atualizada com sucesso!!![/]")
-        break
+            break
 
     
     def deletar_produto(self):
