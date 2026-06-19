@@ -1,7 +1,7 @@
 from rich import print
 from rich.table import Table
 from rich.panel import Panel
-import validacoes
+import utils.validacoes as validacoes
 from banco.produtos import *
 
 class ControleDeEstoque:

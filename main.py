@@ -1,7 +1,7 @@
 from rich import print
 import os
-from estoque import ControleDeEstoque
-from menu import Menu
+from core.estoque import ControleDeEstoque
+from core.menu import Menu
 from banco.conexao import criar_tabela
                 
 menu = Menu()
