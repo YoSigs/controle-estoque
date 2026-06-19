@@ -2,7 +2,7 @@ from rich import print
 from rich.table import Table
 from rich.panel import Panel
 import validacoes
-from banco.produtos import inserir_no_banco, lista_de_produtos, filtrar_produtos, apagar_produto, atualizar_quantidade
+from banco.produtos import *
 
 class ControleDeEstoque:
 
@@ -39,7 +39,7 @@ class ControleDeEstoque:
 
         print("[green]Produto cadastrado com sucesso[/]")
 
-    def mostrar_produtos():
+    def mostrar_produtos(self):
         
         lista = Table(title = "Produtos")
 
@@ -65,7 +65,7 @@ class ControleDeEstoque:
         lista.add_column("Preço")
         lista.add_column("Quantidade")
 
-        filtro = input("Digite o ID do produto para filtrar apenas ele, ou aperte enter para ver todos: ")
+        filtro = input("Digite o nome do produto para filtrar apenas ele, ou aperte enter para ver todos: ")
         if filtro.strip() == "":
             for produto in lista_de_produtos():
                 lista.add_row(
@@ -75,16 +75,16 @@ class ControleDeEstoque:
                 str(produto[3])
             )
         else:
-           produto = filtrar_produtos(filtro)
+           produto = filtrar_produtos_por_nome(filtro)
            if not produto:
                print("[red]ERRO: Produto não encontrado![/]")
                return
            
-           
-           lista.add_row(str(produto[0]),
-                         produto[1],
-                         f"R$ {produto[2]:.2f}",
-                         str(produto[3]))
+           for produto in filtrar_produtos_por_nome(filtro):
+                lista.add_row(str(produto[0]),
+                            produto[1],
+                            f"R$ {produto[2]:.2f}",
+                            str(produto[3]))
             
                 
             
@@ -92,6 +92,7 @@ class ControleDeEstoque:
 
     def atualizar_quant_produtos(self):
 
+        self.mostrar_produtos()
         while True:
             id_produto = validacoes.ler_inteiros("Qual o ID do produto que você deseja atualizar? (0 para voltar)")
             if id_produto == 0:
@@ -102,7 +103,7 @@ class ControleDeEstoque:
                 continue
             break
 
-        produto = filtrar_produtos(id_produto)
+        produto = filtrar_produtos_por_id(id_produto)
         if not produto:
             print("[red]ERRO: Produto não encontrado![/]")
             return
@@ -128,7 +129,7 @@ class ControleDeEstoque:
         id_produto = validacoes.ler_inteiros("ID do produto que deseja remover: (0 para voltar) ")
         if id_produto == 0:
             return
-        produto = filtrar_produtos(id_produto)
+        produto = filtrar_produtos_por_id(id_produto)
         if produto is None:
             print(F"[red]ERRO: Produto não encontrado![/]")
             return
