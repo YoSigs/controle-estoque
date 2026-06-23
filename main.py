@@ -25,6 +25,8 @@ def main():
             case '3':
                 estoque.atualizar_quant_produtos()
             case '4':
+                estoque.atualizar_preco_produtos()
+            case '5':
                 estoque.deletar_produto()
             case _:
                 print("[red]OPÇÃO INVALIDA[/]")

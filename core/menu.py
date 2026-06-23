@@ -8,7 +8,8 @@ class Menu:
         conteudo = f"[blue]1.[/] Cadastrar produtos"
         conteudo += f"\n[blue]2.[/] Listar produtos"
         conteudo += f"\n[blue]3.[/] Atualizar quantidade"
-        conteudo += f"\n[blue]4.[/] Deletar produto"
+        conteudo += f"\n[blue]4.[/] Atualizar preço"
+        conteudo += f"\n[blue]5.[/] Deletar produto"
 
         menu = Panel(conteudo, width=35, title="Menu")
         print(menu)

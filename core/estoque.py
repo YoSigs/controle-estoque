@@ -1,8 +1,11 @@
 from rich import print
 from rich.table import Table
 from rich.panel import Panel
+from rich.console import Console
 import utils.validacoes as validacoes
 from banco.produtos import *
+
+console = Console()
 
 class ControleDeEstoque:
 
@@ -117,6 +120,35 @@ class ControleDeEstoque:
             
             atualizar_quantidade(id_produto, quantidade_nova)
             print("[green]Quantidade atualizada com sucesso!!![/]")
+            break
+
+    def atualizar_preco_produtos(self):
+
+        self.mostrar_produtos()
+        while True:
+            id_produto = validacoes.ler_float("Qual o ID do produto que você deseja atualizar? (0 para voltar)")
+            if id_produto == 0:
+                return
+        
+            if not validacoes.verifica_numero_positivo(id_produto):
+                print("[red]Digite somente numeros positivos![/]")  
+                continue
+            break
+
+        produto = filtrar_produtos_por_id(id_produto)
+        if not produto:
+            print("[red]ERRO: Produto não encontrado![/]")
+            return
+        
+        while True:
+            preco_novo = console.input(f"O preço atual do produto [blue]{produto[1]}[/] é [green]R${produto[2]}[/] \nNovo Preço: ").replace(",",".")
+
+            if not validacoes.verifica_numero_positivo(preco_novo):
+                print("[red]ERRO: digite somente numeros positivos")
+                continue
+            
+            atualizar_preco(id_produto, preco_novo)
+            print("[green]Preço atualizado com sucesso!!![/]")
             break
 
     

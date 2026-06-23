@@ -83,4 +83,18 @@ def atualizar_quantidade(id, quantidade_nova):
 
     conexao.commit()
     conexao.close()
+
+def atualizar_preco(id, preco_novo):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    UPDATE produtos
+    SET preco = ?
+    WHERE id = ?
+                   """,
+    (preco_novo, id))
+
+    conexao.commit()
+    conexao.close()
     
