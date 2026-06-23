@@ -15,7 +15,7 @@ def verifica_numero_positivo(numero):
             return False
         return True
     except ValueError:
-        repr
+        return
         
 def ler_inteiros(msg):
     while True:
