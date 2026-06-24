@@ -4,18 +4,19 @@ Projeto desenvolvido em Python para gerenciamento de estoque via terminal, utili
 
 ## Funcionalidades
 
-* Cadastro de produtos
-* Listagem de produtos
-* Busca de produtos por ID
-* Atualização de quantidade
-* Exclusão de produtos
-* Validação de entradas do usuário
+- Cadastro de produtos
+- Listagem de produtos
+- Busca de produtos por nome
+- Atualização de quantidade
+- Atualização de preço
+- Exclusão de produtos
+- Validação de entradas do usuário
 
 ## Tecnologias
 
-* Python
-* SQLite
-* Rich
+- Python
+- SQLite
+- Rich
 
 ## Estrutura do Projeto
 
@@ -26,10 +27,19 @@ controle-estoque/
 │   ├── conexao.py
 │   └── produtos.py
 │
-├── validacoes.py
-├── estoque.py
+├── core/
+│   ├── estoque.py
+│   └── menu.py
+│
+├── utils/
+│   └── validacoes.py
+│
+├── tests/
+│   └── teste.py
+│
 ├── main.py
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ## Como Executar
@@ -62,9 +72,17 @@ python main.py
 
 Durante o desenvolvimento deste projeto foram praticados conceitos como:
 
-* CRUD com SQLite
-* Modularização de código
-* Validação de dados de entrada
-* Manipulação de banco de dados com Python
-* Uso da biblioteca Rich para interface em terminal
+- CRUD com SQLite
+- Consultas SQL utilizando SELECT, INSERT, UPDATE e DELETE
+- Modularização de código
+- Validação de dados de entrada
+- Manipulação de banco de dados com Python
+- Uso da biblioteca Rich para interface em terminal
+- Organização de projetos Python em múltiplos módulos
 
+## Próximos Passos
+
+- Implementar logs da aplicação
+- Adicionar testes automatizados
+- Melhorar a experiência do usuário no terminal
+- Implementar validação utilizando Pydantic
